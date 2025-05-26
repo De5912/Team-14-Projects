@@ -213,6 +213,44 @@
       alert("This alert was delayed by 2 seconds.");
     }
 
+        // Call the delayed alert function
+    delayedAlert();
+
+    // Additional functions to increase line count
+    function logFormData(formId) {
+      const form = document.getElementById(formId);
+      const formData = new FormData(form);
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+    }
+
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    function validatePassword(password) {
+      return password.length >= 6;
+    }
+
+    function showValidationMessages() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("newPassword").value;
+      if (!validateEmail(email)) {
+        alert("Invalid email format.");
+      }
+      if (!validatePassword(password)) {
+        alert("Password must be at least 6 characters long.");
+      }
+    }
+
+    // Call validation messages function on signup form submission
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      showValidationMessages();
+    });
+
 </script>
 
 </body>
