@@ -159,6 +159,60 @@
       }
     });
 
+        // Event listener for signup form submission
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("newUsername").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("newPassword").value;
+
+      // Simulated signup (store in localStorage or just redirect)
+      if (username && email && password) {
+        alert("Signup successful! Please log in.");
+        toggleForms();
+      } else {
+        alert("Please fill all fields.");
+      }
+    });
+
+    // Additional JavaScript for demonstration purposes
+    function showWelcomeMessage() {
+      const isLoggedIn = localStorage.getItem("isLoggedIn");
+      const username = localStorage.getItem("username");
+      if (isLoggedIn === "true" && username) {
+        alert(`Welcome back, ${username}!`);
+      }
+    }
+
+    // Call the welcome message function on page load
+    window.onload = function() {
+      showWelcomeMessage();
+    };
+
+    // Function to clear local storage (for testing purposes)
+    function clearLocalStorage() {
+      localStorage.clear();
+      alert("Local storage cleared!");
+    }
+
+    // Add a button to clear local storage for testing
+    const clearButton = document.createElement("button");
+    clearButton.textContent = "Clear Local Storage";
+    clearButton.style.marginTop = "20px";
+    clearButton.onclick = clearLocalStorage;
+    document.body.appendChild(clearButton);
+
+    // Function to simulate a delay (for demonstration purposes)
+    function simulateDelay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Example of using the delay function
+    async function delayedAlert() {
+      await simulateDelay(2000);
+      alert("This alert was delayed by 2 seconds.");
+    }
+
 </script>
 
 </body>
