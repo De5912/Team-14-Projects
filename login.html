@@ -128,5 +128,38 @@
 
 </div>
 
+<script>
+
+    // Function to toggle between login and signup forms
+    function toggleForms() {
+      const loginContainer = document.getElementById('loginContainer');
+      const signupContainer = document.getElementById('signupContainer');
+      if (loginContainer.style.display === 'none') {
+        loginContainer.style.display = 'block';
+        signupContainer.style.display = 'none';
+      } else {
+        loginContainer.style.display = 'none';
+        signupContainer.style.display = 'block';
+      }
+    }
+
+    // Event listener for login form submission
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Simulated login (accepts any non-empty credentials)
+      if (username && password) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", username);
+        window.location.href = "menu.html"; // redirect to menu
+      } else {
+        alert("Please enter valid credentials.");
+      }
+    });
+
+</script>
+
 </body>
 </html>
