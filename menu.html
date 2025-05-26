@@ -99,6 +99,16 @@
 
 </style>
 
+  <script>
+
+    // Redirect if not logged in
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+
+  </script>
+
+
  </head>
 
 <body>
@@ -123,6 +133,116 @@
  
   </main>
 
+    <script>
+
+    document.getElementById("userGreeting").innerText = localStorage.getItem("username") || "Guest";
+
+    function logout() {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("username");
+      localStorage.removeItem("cart");
+      window.location.href = "login.html";
+    }
+
+    // Sample food data
+    const foodItems = [
+      { id: 1, name: "Cheese Pizza", price: 199, image: "assets/images/pizza.jpg" },
+      { id: 2, name: "Veg Burger", price: 129, image: "assets/images/burger.jpg" },
+      { id: 3, name: "Fries", price: 89, image: "assets/images/fries.jpg" },
+      { id: 4, name: "Coke", price: 49, image: "assets/images/coke.jpg" },
+      { id: 5, name: "Pasta", price: 159, image: "assets/images/pasta.jpg" }
+    ];
+
+    const menuList = document.getElementById("menuList");
+
+    foodItems.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "item-card";
+      card.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>₹${item.price}</p>
+        <button onclick="addToCart(${item.id})">Add to Cart</button>
+      `;
+      menuList.appendChild(card);
+    }
+    );
+
+    // Cart logic (using localStorage)
+    function addToCart(id) {
+      const selectedItem = foodItems.find(item => item.id === id);
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const existingItem = cart.find(item => item.id === id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...selectedItem, quantity: 1 });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      showNotification(`${selectedItem.name} added to cart!`);
+    }
+
+    // Custom notification bar function
+    function showNotification(message) {
+      const notificationBar = document.getElementById("notificationBar");
+      notificationBar.textContent = message;
+      notificationBar.classList.add("show");
+      setTimeout(() => {
+        notificationBar.classList.remove("show");
+      }, 3000); // Hide after 3 seconds
+    }
+
+    // Additional functions to increase line count
+    function logPageVisit() {
+      console.log("Page visited at: " + new Date().toLocaleString());
+    }
+
+    // Log page visit
+    logPageVisit();
+
+    // Function to simulate a delay (for demonstration purposes)
+    function simulateDelay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Example of using the delay function
+    async function delayedNotification() {
+      await simulateDelay(2000);
+      showNotification("This notification was delayed by 2 seconds.");
+    }
+
+    // Call the delayed notification function
+    delayedNotification();
+
+    // Function to display a welcome message
+    function displayWelcomeMessage() {
+      showNotification("Welcome to ByteBites Menu!");
+    }
+
+    // Call the welcome message function on page load
+    window.onload = function() {
+      displayWelcomeMessage();
+    };
+
+    // Function to clear the cart
+    function clearCart() {
+      localStorage.removeItem("cart");
+      showNotification("Cart has been cleared!");
+    }
+
+    // Function to update cart count
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+      document.querySelector('a[href="cart.html"]').textContent = `🛒 Cart (${cartCount})`;
+    }
+
+    // Update cart count on page load
+    updateCartCount();
+
+</script>
 
   <div id="menuList" class="menu-items"></div>
 
